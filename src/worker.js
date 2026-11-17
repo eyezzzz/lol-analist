@@ -1,8 +1,5 @@
 export default {
  async fetch(request, env, ctx) {
-  if (!ctx.access) return new Response('Acesso privado ainda não configurado.', {status:403,headers:{'Cache-Control':'no-store'}});
-  let identity; try {identity = await ctx.access.getIdentity()} catch {return new Response('Não autorizado',{status:403})}
-  if (!identity?.email) return new Response('Não autorizado',{status:403});
   const url = new URL(request.url);
   const headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
   if(url.pathname==='/api/data') {
