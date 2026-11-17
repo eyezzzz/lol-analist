@@ -1,0 +1,7 @@
+import {useEffect,useState} from 'react';
+export type Champion={id:string;name:string;image:{full:string}};
+export type PoolEntry={championId:string;comfort:string;priority:string;readiness:string;notes:string};
+export type Player={id:string;title:string;subtitle:string;riotId?:string;championPool?:PoolEntry[]};
+export function useChampions(){const [champions,setChampions]=useState<Champion[]>([]);const [version,setVersion]=useState('');const [error,setError]=useState(false);useEffect(()=>{let live=true;async function load(){try{const vr=await fetch('https://ddragon.leagueoflegends.com/api/versions.json');if(!vr.ok)throw Error();const v=(await vr.json())[0];if(typeof v!=='string')throw Error();const r=await fetch(`https://ddragon.leagueoflegends.com/cdn/${encodeURIComponent(v)}/data/pt_BR/champion.json`);if(!r.ok)throw Error();const data=await r.json();if(live){setVersion(v);setChampions((Object.values(data.data) as Champion[]).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')));setError(false)}}catch{if(live)setError(true)}}load();return()=>{live=false}},[]);return {champions,version,error}}
+export const championImage=(version:string,c:Champion)=>`https://ddragon.leagueoflegends.com/cdn/${encodeURIComponent(version)}/img/champion/${encodeURIComponent(c.image.full)}`;
+export const normalize=(s:string)=>s.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
