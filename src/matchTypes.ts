@@ -1,0 +1,2 @@
+export type MatchData={kind?:string;side?:string;result?:string;duration?:string;patch?:string;date?:string;draftId?:string;playerIds?:string[];gamePlan?:string;whatWorked?:string;whatToImprove?:string;vodUrl?:string};
+export type MatchItem={id:string;title:string;subtitle:string;date:string;blue?:string;red?:string;draftSlots?:{bluePicks:string[];redPicks:string[];blueBans:string[];redBans:string[]}};
